@@ -61,10 +61,20 @@ module.exports = function toReadable(num) {
                 result = dozen;
             } else if (number.length == 3) {
                 for (let [key, value] of Object.entries(numbers)) {
-                    if (key == number[0]) {
-                        let arrDozen = [number[1], number[2]];
+                    let arrDozen = [number[1], number[2]];
+                    if (key == number[0] && !(num % 100)) {
+                        result = `${value} hundred`
+                    } else if (key == number[0] && number[1] != 0 && !numbers.hasOwnProperty(+arrDozen.join(''))) {
                         let dozen = calculateDozens(arrDozen);
                         result = `${value} hundred ${dozen}`
+                    } else if (key == number[0] && arrDozen !== ['0', '0']) {
+                        for (let [k, v] of Object.entries(numbers)) {
+                            if (k == +arrDozen.join('')) {
+                                result = `${value} hundred ${v}`
+                            }
+
+                        }
+
                     }
                 }
             }
